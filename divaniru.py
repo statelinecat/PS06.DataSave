@@ -12,12 +12,12 @@ browser.get(url)
 time.sleep(5)  # Wait for the page to load
 
 products = []
-product_elements = browser.find_elements_by_class_name('product-item')  # Adjust selector based on actual structure
+product_elements = browser.find_elements_by_class_name('_Ud0k U4KZV')  # Adjust selector based on actual structure
 
 for product in product_elements:
     name_element = product.find_element_by_class_name('product-name')
     price_element = product.find_element_by_class_name('price')
-    link_element = product.find_element_by_class_name('product-link')
+    link_element = product.find_element_by_class_name('ui-GPFV8')
 
     products.append({
         'название': name_element.text,
