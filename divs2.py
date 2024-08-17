@@ -1,10 +1,9 @@
 from selenium import webdriver
 import time
-import pandas as pd
+import csv
 
-# Path to your WebDriver executable
 
-browser = webdriver.Firefox()
+browser =  webdriver.Firefox()
 
 # Open the webpage
 url = 'https://www.divan.ru/category/divany-i-kresla'
@@ -17,15 +16,13 @@ product_elements = browser.find_elements_by_class_name('_Ud0k')  # Adjust select
 for product in product_elements:
     name_element = product.find_element_by_class_name('lsooF')
     price_element = product.find_element_by_class_name('pY3d2')
-    link_element = product.find_element_by_class_name('a').get_attribute('href')
+    link_element = product.find_element_by_class_name('a')
 
-    products.append({
-        'название': name_element.text,
-        'цена': price_element.text,
-        'ссылка на товар': link_element.get_attribute('href')
-    })
+    products.append([name_element.text, price_element.text, link_element.get_attribute('href')])
 
-df = pd.DataFrame(products)
-df.to_csv('products.csv', index=False, encoding='utf-8')
+with open('products.csv', mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    writer.writerow(["название", "цена", "ссылка на товар"])  # Write header
+    writer.writerows(products)  # Write rows
 
 browser.quit()

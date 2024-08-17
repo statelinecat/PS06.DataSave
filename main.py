@@ -8,23 +8,23 @@ url = "https://www.divan.ru/category/divany-i-kresla"
 driver.get(url)
 time.sleep(30)
 print("Скрипт запущен")
-divans = driver.find_elements(By.CLASS_NAME, '_Ud0k U4KZV')
+divans = browser.find_elements(By.CSS_SELECTOR, '._Ud0k')
 print(divans)
 parsed_data = []
 
 for divan in divans:
     try:
 
-        # name = divan.find_element(By.CSS_SELECTOR, 'span.name').text
-        #price = divan.find_element(By.CSS_SELECTOR, 'span.ui-LD-ZU KIkOH').text
-        link = divan.find_element(By.CLASS_NAME, 'a.ui-GPFV8').get_attribute('href')
+        name = divan.find_element(By.CLASS_NAME, 'lsooF').text
+        price = divan.find_element(By.CLASS_NAME, 'pY3d2').text
+        link = divan.find_element(By.CLASS_NAME, 'a').get_attribute('href')
 
         print(link)
 
     except:
         print("произошла ошибка при парсинге")
         continue
-    parsed_data.append({'Ссылка': link})
+    parsed_data.append({''
 
 driver.quit()
 
