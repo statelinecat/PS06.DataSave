@@ -1,37 +1,33 @@
+from selenium import webdriver
 import time
 import csv
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-driver = webdriver.Firefox()
-url = "https://www.divan.ru/category/divany-i-kresla"
-driver.get(url)
-time.sleep(30)
-print("Скрипт запущен")
-divans = browser.find_elements(By.CSS_SELECTOR, '._Ud0k')
-print(divans)
-parsed_data = []
+browser = webdriver.Firefox()
+url = 'https://sneakerhead.ru/shoes/sneakers/'
+browser.get(url)
+time.sleep(5)
+print("Парсинг начался")
+products = []
 
-for divan in divans:
+product_elements = browser.find_elements(By.CLASS_NAME, 'product-cards__item')
+
+for product in product_elements:
     try:
-
-        name = divan.find_element(By.CLASS_NAME, 'lsooF').text
-        price = divan.find_element(By.CLASS_NAME, 'pY3d2').text
-        link = divan.find_element(By.CLASS_NAME, 'a').get_attribute('href')
-
-        print(link)
-
+        name_element = product.find_element(By.CLASS_NAME,'product-card__link').get_attribute('title')
+        price_element = product.find_element(By.CSS_SELECTOR,'span.product-card__price-value').text
+        link_element = product.find_element(By.CSS_SELECTOR,'a.product-card__link').get_attribute('href')
     except:
         print("произошла ошибка при парсинге")
         continue
-    parsed_data.append({''
+    products.append([name_element, price_element, link_element])
 
-driver.quit()
+browser.quit()
 
-with open("divans.csv", 'w', newline='') as file:
+with open('products.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['Ссылка'])
-    writer.writerow(parsed_data)
+    writer.writerow(["название", "цена", "ссылка на товар"])
+    writer.writerows(products)
 
-
+print("Парсинг завершен. Файл products.csv создан.")
 
